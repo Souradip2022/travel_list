@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import useProvider from "../context/ContextProvider.jsx"
 
 function Form() {
@@ -7,19 +7,21 @@ function Form() {
   const [quantity, setQuantity] = useState(1);
   const [description, setDescription] = useState("");
 
+  const descrRef = useRef(null);
+
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Enter") {
-        console.log("Enter key pressed");
-        // Add your logic here to execute when Enter is pressed
+        // console.log(descrRef.current);
+        descrRef.current.focus();
       }
     };
 
-    document.querySelector("#root").addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
 
     // Cleanup function to remove the event listener when component unmounts
     return () => {
-      document.querySelector("#root").removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
 
@@ -48,6 +50,7 @@ function Form() {
               </option>))}
         </select>
         <input type="text"
+               ref={descrRef}
                value={description}
                placeholder="Item..."
                onChange={(e) => setDescription(() => e.target.value)}

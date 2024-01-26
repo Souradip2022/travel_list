@@ -10,16 +10,21 @@ function App() {
   const [items, setItems] = useState([]);
 
   function handleAddItems(item) {
-    setItems(() => [...items, item]);
+    if (!items.some((elem) => elem.description === item.description)) {
+    // Add the new item to the items array
+    setItems((prevItems) => [...prevItems, item]);
+  }
+    // setItems(() => [...items, item]);
+    console.log(items);
   }
 
   function handleDeleteItem(id) {
     // setItems(() => items.filter((elem) => (elem.id !== id) ? elem : null));
-    setItems(() => items.filter((elem) => elem.id !== id));
+    setItems(() => items.filter((item) => item.id !== id));
   }
 
   function handleToggleItems(id) {
-    setItems(() => items.map(elem => (elem.id === id) ? {...elem, packed: !elem.packed} : elem));
+    setItems(() => items.map(item => (item.id === id) ? {...item, packed: !item.packed} : item));
   }
 
   function handleClearList() {
